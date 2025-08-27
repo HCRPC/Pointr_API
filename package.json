@@ -1,0 +1,18 @@
+{
+  "name": "campus-api",
+  "version": "1.0.0",
+  "description": "Express + PostgreSQL REST API with Docker and Playwright tests",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "npx playwright test"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}

@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS sites (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    location VARCHAR(150)
+);
+
+CREATE TABLE IF NOT EXISTS buildings (
+    id SERIAL PRIMARY KEY,
+    site_id INT REFERENCES sites(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS levels (
+    id SERIAL PRIMARY KEY,
+    building_id INT REFERENCES buildings(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    floor_number INT
+);
