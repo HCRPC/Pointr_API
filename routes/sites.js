@@ -5,7 +5,7 @@ const pool = require("../db");
 // Create Site
     router.post("/", async (req, res) => {
       const { name, location } = req.body;
-      if (!name || !location) return res.status(400).json({ error: "name is required" });
+      if (!name || !location) return res.status(400).json({ error: "name or location is required" });
       try {
         // Check if site name already exists
         const existing = await pool.query("SELECT id FROM sites WHERE name = $1", [name]);
