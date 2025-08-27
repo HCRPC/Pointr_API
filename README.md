@@ -1,5 +1,8 @@
 # Campus API (Express + PostgreSQL + Docker + Playwright)
 
+## Pre-request for local run 
+To run locally, you must have Docker installed on your local.
+
 ## Quick Start
 ```bash
 docker-compose up --build

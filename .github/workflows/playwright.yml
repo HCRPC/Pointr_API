@@ -6,6 +6,12 @@ on:
     branches: [ main, master ]
   schedule:
     - cron: '0 5 * * *'
+  workflow_dispatch:
+    inputs:
+      test_pattern:
+        description: 'Test pattern to run (optional)'
+        required: false
+        default: ''
 jobs:
   test:
     timeout-minutes: 60
