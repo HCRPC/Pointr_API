@@ -34,7 +34,7 @@ router.get("/:id", async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "Building not found" });
     }
-    res.json(result.rows[0]);
+    return res.status(200).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -55,7 +55,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const result = await pool.query("DELETE FROM buildings WHERE id = $1 RETURNING id", [req.params.id]);
     if (result.rowCount === 0) return res.status(404).json({ message: "Building not found" });
-    res.json({ message: "Building deleted" });
+    res.status(200).json({ message: "Building deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

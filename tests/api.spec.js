@@ -31,6 +31,22 @@ test('POST /sites - duplicate site returns 409 (negative)', async ({ request }) 
   await request.delete(`/sites/${site.id}`);
 });
 
+test('GET /sites/:id - should get a site by id (positive)', async ({ request }) => {
+  const data = { name: 'GetByIdSite', location: 'Trabzon' };
+  const createRes = await request.post('/sites', { data });
+  expect(createRes.status()).toBe(201);
+  const createdSite = await createRes.json();
+
+  const res = await request.get(`/sites/${createdSite.id}`);
+  expect(res.status()).toBe(200);
+  const site = await res.json();
+  expect(site.id).toBe(createdSite.id);
+  expect(site.name).toBe(data.name);
+
+  // Cleanup
+  await request.delete(`/sites/${createdSite.id}`);
+});
+
 // --- BUILDINGS TEST CASES ---
 test('POST /buildings - should create a building (positive)', async ({ request }) => {
   // Önce bir site oluştur
@@ -64,6 +80,29 @@ test('POST /buildings - duplicate building returns 409 (negative)', async ({ req
   const res2 = await request.post('/buildings', { data });
   expect(res2.status()).toBe(409);
   const building = await res1.json();
+  // Cleanup
+  await request.delete(`/buildings/${building.id}`);
+  await request.delete(`/sites/${site.id}`);
+});
+
+test('GET /buildings/:id - should get a building by id (positive)', async ({ request }) => {
+  // Önce bir site ve building oluştur
+  const siteData = { name: 'BldgGetByIdSite', location: 'Kayseri' };
+  const siteRes = await request.post('/sites', { data: siteData });
+  expect(siteRes.status()).toBe(201);
+  const site = await siteRes.json();
+  const bldgData = { site_id: site.id, name: 'GetByIdBuilding' };
+  const bldgRes = await request.post('/buildings', { data: bldgData });
+  expect(bldgRes.status()).toBe(201);
+  const building = await bldgRes.json();
+
+  // Get building by id
+  const res = await request.get(`/buildings/${building.id}`);
+  expect(res.status()).toBe(200);
+  const bldg = await res.json();
+  expect(bldg.id).toBe(building.id);
+  expect(bldg.name).toBe(bldgData.name);
+
   // Cleanup
   await request.delete(`/buildings/${building.id}`);
   await request.delete(`/sites/${site.id}`);
